@@ -1,0 +1,125 @@
+<!-- friendlist.ejs -->
+
+<!-- HTML 문서 시작 -->
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- 헤더 섹션 -->
+<head>
+    <!-- 문자 인코딩 및 뷰포트 설정 -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <!-- 페이지 제목 설정 -->
+    <title>Friend List</title>
+
+    <!-- Bootstrap CSS 링크 -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+
+    <!-- 페이지에 적용될 스타일 시트 -->
+    <style>
+        /* 전체 body 스타일 */
+        body {
+            text-align: center; /* 가운데 정렬 */
+            padding-bottom: 20px; /* 하단 여백 */
+            background-color: #f8f9fa; /* 배경 색상 */
+        }
+
+        /* 페이지 제목 스타일 */
+        h2 {
+            margin: 10px; /* 여백 설정 */
+            color: #007bff; /* 글자 색상 */
+        }
+
+        /* 목록 스타일 */
+        ul {
+            list-style-type: none; /* 목록 스타일 제거 */
+            padding: 0; /* 내부 여백 제거 */
+        }
+
+        /* 각 항목 스타일 */
+        li {
+            margin-bottom: 15px; /* 항목 간 여백 */
+        }
+
+        /* 폼 스타일 */
+        form {
+            display: inline-block; /* 인라인 블록 표시 */
+        }
+
+        /* 컨테이너 스타일 */
+        .container {
+            margin-top: 20px; /* 상단 여백 */
+            background-color: #ffffff; /* 배경 색상 */
+            padding: 20px; /* 내부 여백 */
+            border-radius: 10px; /* 테두리 모서리 둥글게 */
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* 그림자 효과 */
+        }
+
+        /* 목록 항목 스타일 */
+        .list-group-item {
+            margin-top: 20px; /* 항목 상단 여백 */
+            width: 400px; /* 항목 너비 */
+            background-color: #f8f9fa; /* 배경 색상 */
+        }
+
+        /* 버튼 스타일 */
+        .btn {
+            margin-top: 5px; /* 버튼 상단 여백 */
+        }
+
+        /* 이름 스타일 */
+        .name {
+            margin: 20px; /* 여백 설정 */
+        }
+    </style>
+</head>
+
+<!-- 본문 섹션 -->
+<body>
+    <!-- 메뉴 파일 포함 -->
+    <%- include('menu.html') %>
+
+    <!-- 컨테이너 시작 -->
+    <div class="container">
+        <!-- 페이지 제목 -->
+        <h2>친구 목록</h2>
+        
+        <!-- 목록 표시 -->
+        <div class="list">
+            <ul class="list-group">
+                <!-- 친구 목록 순환 -->
+                <% for (let friend of friends) { %>
+                    <!-- 각 친구 항목 -->
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                        <%= friend %> <!-- 친구 이름 출력 -->
+                        
+                        <!-- 이름과 버튼 그룹 -->
+                        <div class="name">
+                            <!-- 친구 블로그로 이동하는 버튼 -->
+                            <a href="/friendblog/<%= friend %>" class="btn btn-primary">블로그</a>
+                            
+                            <!-- 친구 삭제 폼 -->
+                            <form method="post" action="/friendlist/delete/<%= friend %>">
+                                <button type="submit" class="btn btn-danger">삭제</button>
+                            </form>
+                        </div>
+                    </li>
+                <% } %>
+            </ul>
+        </div>
+
+        <!-- 친구 추가 링크 -->
+        <a href="/addfriend" class="btn btn-success mt-3">친구추가</a>
+    </div>
+    <!-- 컨테이너 종료 -->
+
+    <!-- Bootstrap 및 jQuery 및 Popper.js 스크립트 -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.0.9/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+<!-- 본문 종료 -->
+
+</html>
+<!-- HTML 문서 종료 -->

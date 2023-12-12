@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Your Blog</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+ 
+  <style>
+    /* 추가적인 사용자 정의 스타일 */
+    body {
+      background-color: #f8f9fa;
+    }
+
+    .container {
+      margin-top: 50px;
+    }
+    .container1 {
+      margin-top: 50px;
+    }
+    .container2 {
+      margin-top: 50px;
+    }
+
+    h1, h3 {
+      font-weight: bold;
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    .welcome-message {
+      font-size: 1.2em;
+    }
+
+    .login-btn {
+      width: 200px;
+      margin: 20px auto;
+    }
+
+    .blog-container {
+      text-align: center;
+    }
+
+    /* 블로그 카드 스타일링 */
+    .blog-card {
+      margin: 20px;
+      padding: 20px;
+      border: 1px solid #ddd;
+      border-radius: 10px;
+      background-color: #fff;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      /* 수정된 스타일 */
+      transition: transform 0.3s ease-in-out;
+    }
+
+    .blog-card:hover {
+      transform: scale(1.05);
+    }
+
+    .more-btn {
+      margin-top: 20px;
+    }
+
+    /* 수정된 가로 정렬 스타일 */
+    .card-deck {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    .card {
+      width: 300px;
+      margin: 10px;
+    }
+    .logout{
+      width: 50px;
+      height: 50px;
+      border: 2px solid salmon;
+      background-color:  salmon;
+      margin: 10px;
+      padding: 10px;
+      border-radius: 50%;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.2); /* 그림자 효과 */
+      cursor: pointer; /* 포인터 커서로 표시 */}
+    #logout{
+        margin-left: 300px;
+        text-align: center;
+        background-color: red;
+
+        
+    }
+     /* 추가된 스타일 */
+  #weather-container {
+    text-align: center;
+    padding-top: 30px;
+    margin-top: 30px;
+  }
+
+  .weather-icon {
+    font-size: 3em;
+    margin-bottom: 10px;
+  }
+    /* OpenWeatherMap 아이콘을 위한 스타일 */
+    .wi {
+      font-family: 'Weather Icons', sans-serif;
+    }
+    .iframe-container {
+      margin-right: 150px;
+      width: 400px; /* 원하는 가로 크기 */
+      height: 300px; /* 원하는 세로 크기 */
+      float: right;
+     
+    }
+  
+    .iframe-container iframe {
+       pointer-events: none; /* iframe 내의 모든 이벤트 비활성화 */
+      width: 100%;
+      height: 100%;
+      border: none;
+      overflow-y: auto; /* 세로 스크롤 유지 */
+    }
+    #post{
+      float: right;
+      height: 400px;
+    }
+    #postbtn{
+      float: right;
+    }
+    .pt{
+      margin-top: 10px;
+      margin-left: 200px;
+      float: left;
+    }
+    </style>
+</head>
+<body>
+
+<!-- Navigation Bar -->
+<!-- menu.html을 include하여 네비게이션 바 추가 -->
+<%- include('menu.html') %>
+
+<!-- Main Content -->
+<div class="container">
+  <div class="container1">
+  <% if(user){ %>
+    <h1>♡ Welcome to <%= user.userid %> Blog ♡    <a href="/logout" class="btn btn-primary more-btn" id="logout">로그아웃</a></h1>
+
+    <!-- 현재 사용자의 블로그 포스트 목록 -->
+    <div class="user">
+      <div class="blog-container">
+        <div class="card-deck">
+          <% if(userPosts.length > 0) { %>
+            <% for(let i=0; i < Math.min(userPosts.length, 3); i++){ %>
+              <div class="card blog-card">
+                <div class="card-body">
+                  <h5 class="card-title"><a href="/content/<%=userPosts[i]._id %>"><%= userPosts[i].title %></a></h5>
+                  <p class="card-text"><strong>작성자:</strong> <%= userPosts[i].userid %></p>
+                  <% let post_date = new Date(userPosts[i].date) %>
+                  <p class="card-text"><strong>작성일:</strong> <%= post_date.toLocaleDateString('kr') %></p>
+                </div>
+              </div>
+            <% } %>
+          <% } else { %>
+            <p>아직 작성된 글이 없습니다. 자유롭게 글을 작성해보세요!</p>
+          <% } %>
+        </div>
+        <a href="/userblog" class="btn btn-primary more-btn">더보기</a>
+        <button class='btn btn-primary more-btn' onclick="move_enter()">글쓰기</button>
+      </div>
+    </div>
+  </div>
+  <div class="container2">
+    <!-- 친구의 블로그 포스트 목록 -->
+    <!-- iframe1에 링크 -->
+<div class="clearfix" id="post">
+<!-- iframe1이 표시될 프레임 -->
+<div class="iframe-container">
+  <a target="iframe1" href="/friendpost"></a>
+  <iframe name="iframe1" src="/friendpost" ></iframe>   <!-- 친구의 게시물을 iframe으로 설정 -->
+  <a href="/friendpost" id="postbtn" class="btn btn-primary more-btn">자세히</a>
+</div>
+</div>
+ <!-- 날씨 정보를 표시할 곳 -->
+<div id="weather-container" class="container1">
+  <h3>현재 날씨</h3>
+  <img id="weather-icon" src="" alt="Weather Icon" class="weather-icon">
+  <div id="weather-info" class="blog-container">
+    <!-- 날씨 아이콘을 동적으로 설정 -->
+  </div>
+  <p class="pt">(경기도 의왕시 기준)</p>
+      </div>
+    </div>
+  </div>
+  <% } else { %>
+    <div class="text-center">
+      <h3>로그인 해주세요</h3>
+      <a href="/login" class="btn btn-primary more-btn">로그인</a>
+    </div>
+  <% } %>
+
+</div>
+</div>
+<%- include('footer.html') %> 
+<!-- JavaScript 코드 -->
+<script>
+
+        function move_enter(){
+            window.open('/entermongo','_self');
+        }
+    
+  document.addEventListener("DOMContentLoaded", function () {
+    const weatherContainer = document.getElementById("weather-info");
+    const weatherIcon = document.getElementById("weather-icon");
+  
+    //OpenWeatherMap API key
+    const apiKey = '6156db37828113c88e63a8185f7f9c18';
+  
+    //(경기도 의왕시)
+    const lat = 37.3449;
+    const lon = 126.969;
+  
+    // 날씨데이터
+    fetch(`https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${apiKey}&lang=kr`)
+      .then(response => response.json())
+      .then(data => {
+        
+        const weatherId = data.weather[0].id;
+        const iconSrc = getWeatherIconSrc(weatherId);
+        weatherIcon.src = iconSrc;
+        weatherIcon.width = 50; //아이콘크기
+        weatherIcon.height = 50; 
+        weatherContainer.innerHTML = `
+          <p><strong>날씨:</strong> ${data.weather[0].description}</p>
+          <p><strong>온도:</strong> ${Math.round(data.main.temp - 273.15)}°C</p>
+          <p><strong>습도:</strong> ${data.main.humidity}%</p>
+        `;
+      })
+      .catch(error => {
+        console.error("Error fetching weather data:", error);
+        weatherContainer.innerHTML = "날씨 정보를 가져오지 못했습니다.";
+      });
+  
+    function getWeatherIconSrc(weatherId) {
+     // 날씨 코드에 따른 이미지 구성 
+      switch (weatherId) {
+        case 501:
+          return '/images/rain.png';
+        case 800:
+          return '/images/sun.png';
+        case 600:
+          return '/images/snow.png';
+       
+        default:
+          return '/images/default.png';
+      }
+    }
+  });
+  
+</script>
+<!-- 부트스트랩 JS 파일 링크 -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" crossorigin="anonymous"></script>
+</body>
+</html>

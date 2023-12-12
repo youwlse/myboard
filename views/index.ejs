@@ -1,0 +1,134 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Bootstrap Demo</title>
+  <script src="script/jquery-1.12.3.js"></script> <!--제이쿼리 소스파일 연결 (내 script파일 보다  위에 올라가있어야한다.)-->
+  <script src="script/script.js"></script> <!--script 파일 연결-->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+  <style>
+    body {
+      background-color: #f8f9fa;
+    }
+
+    .container{
+      position: relative;
+      z-index: 10; /*header에는 메뉴 속성이 있기에 z-index값 무조건 줘야함*/
+    }
+
+    h1 {
+      color: #007bff;
+    }
+
+    h3 {
+      margin-top: 20px;
+      margin-bottom: 20px;
+    }
+
+    .btn-login {
+      background-color: #ffc107;
+      color: #212529;
+      font-weight: bold;
+    }
+    .con1{
+      margin-top: 50px;
+      text-align: center;
+    }
+    .con2{
+      margin-top: 80px;
+      text-align: center;
+    }
+    .slider{
+      width: 1200px;
+      height: 500px;
+      background: #aaa;
+      position: relative;
+  }
+  ul.slide{
+      width: 100%;
+      height: 100%;
+      overflow: hidden; /*슬라이드 이미지 옆으로 넘치지 않게 속성값 줌*/
+  }
+  ul.slide li{
+      position: absolute;
+      left: 0;
+      top: 0;
+  }
+  footer{
+    margin-top: 40px;
+  }
+  </style>
+  <script> 
+    function login() {
+      open('/login', '_self');
+    } //버튼 클릭시 동작
+  </script>
+</head>
+<body>
+  <div class="container">
+    <!-- Page content starts -->
+    <%- include('menu.html') %>
+    <div class="con1">
+    
+    <% if (user) { %>
+      <h1 class="mt-3">로그인 하셨습니다.</h1>
+      <h3>♡ 환영합니다. <%= user.userid %>님 ♡ <br> </h3>
+      
+      <div class="slider"><!--슬라이드 구성-->
+        
+        <ul class="slide"><!--슬라이드는 ul로 묶어주고 li에 이미지를 첨부하는 방식으로 했다. (방법은 여러가지)-->
+            <li><img src="images/bg1.png" alt="banner1" width="1200px" height="500px"></li>    <!--이미지 첨부 alt속성은 비우지 말고 꼭 써주기 !!-->
+            <li><img src="images/bg2.png" alt="banner2" width="1200px" height="500px"></li>     
+            <li><img src="images/bg3.png" alt="banner3" width="1200px" height="500px"></li> 
+        </ul>
+    </div>
+      <div class="con2"> <!--슬라이드 이미지-->
+      <a href="/home" class="btn btn-primary" style="width:100px;">홈</a>
+      <a href="/logout" class="btn btn-danger">로그아웃</a>
+        <a href="javascript:void(0);" class="btn btn-outline-danger" onclick="confirmWithdrawal()">회원 탈퇴</a>
+
+
+     
+    <% } else { %>
+      <h3>로그인 해주세요</h3>
+      <p></p>
+      <button class="btn btn-login" onclick="login()" style="width: 500px;">로그인</button>
+    <% } %>
+    <%- include('footer.html') %>
+  </div>
+  </div>
+</div>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" crossorigin="anonymous"></script>
+<script>
+	   function confirmWithdrawal() {
+      // Use a built-in browser prompt for a simple confirmation
+      var confirmWithdrawal = confirm('정말 탈퇴하시겠습니까?');
+  
+      if (confirmWithdrawal) {
+        // If the user confirms, redirect to the withdrawal page
+        window.location.href = '/withdraw'; // Change the URL to the actual withdrawal endpoint
+      } else {
+        // If the user cancels, do nothing or provide feedback
+        console.log('탈퇴가 취소되었습니다.');
+      }
+    }
+
+      /*슬라이드 애니메이션*/
+      $("ul.slide li").eq(0).siblings().hide();/*슬라이드의 이미지 0번째 한테 형제속성주고 숨긴다. */
+      var slideIndex=0; /*함수 사용 slideIndex생성해서 0으로 값을 초기화*/
+      setInterval(function(){ 
+          if(slideIndex<2){ /*만약 slideIndex가 2보다 작다면*/
+              slideIndex++; /*증가시켜라*/
+          }else{ /*그렇지않다면 */
+              slideIndex=0; /*0으로 초기화 시켜라*/
+          }
+          $("ul.slide li").eq(slideIndex).siblings().fadeOut(100); /*슬라이드 이미지의 slideIndex번째에 자식들을 페이드 효과
+          주며 100의 속도로 서서히 사라진다..*/
+          $("ul.slide li").eq(slideIndex).fadeIn(100);/*슬라이드 이미지의 slideIndex번째에 자식들을 페이드 효과
+          주며 100의 속도로 서서히 나타난다..*/
+      },3000); /*3초에 한번씩 반복*/
+      
+</script>
+</body>
+</html>

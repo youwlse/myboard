@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>친구들의 게시물</title>
+    <link rel="stylesheet" href="styles/style1.css" type="text/css"> <!--css링크 외부 연결-->
+    <!-- Include Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+</head>
+<body style="overflow-y:auto;overflow-x:hidden">
+  
+    <header><!--header 구성-->
+        <h2 class="mb-4" style="padding: 25px; float:left;">친구들의 게시물</h2>
+        <nav class="clearfix"> <!--css에서 float 속성을 주었으면 html에서 clear 속성해제 해주어야한다.-->
+            <div class="nav"></div> <!--서브메뉴 배경 서브메뉴와 함께 내려오는 구성 -->
+            <ul class="gnb"> <!--메뉴 구성-->
+                <li><a href="/home">내블로그</a>
+                </li>
+                <li><a href="/listmongo">전체</a>
+                </li>
+
+                <li><a href="/signup">회원가입</a>
+                </li>
+                <li><a href="/addfriend">친구 추가</a></li>
+                <li><a href="/friendlist">친구 목록</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <div class="container mt-5">
+        
+
+        <% if (friendPosts.length > 0) { %>
+            <div class="row">
+                <% for(let i = 0; i < friendPosts.length; i++){ %>
+                    <div class="col-md-6">
+                        <div class="card mb-4">
+                            <div class="card-body">
+                                <h2 class="blog-title"><a href="/content/<%= friendPosts[i]._id %>"><%= friendPosts[i].title %></a></h2>
+                                <p class="blog-author">작성자: <%= friendPosts[i].userid %></p>
+                                <% let post_date = new Date(friendPosts[i].date) %>
+                                <p class="blog-date">작성일: <%= post_date.toLocaleDateString('kr') %></p>    
+                            </div>
+                        </div>
+                    </div>
+                <% } %>
+            </div>
+        <% } else { %>
+            <p>친구들이 아직 게시물을 작성하지 않았습니다.</p>
+        <% } %>
+    </div>
+   
+    <!-- Optional: Include Bootstrap JS if needed -->
+   <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script> 
+</body>
+</html>

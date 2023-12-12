@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Recommended Friends</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 20px;
+        }
+
+        h3 {
+            color: #333;
+        }
+
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        li {
+            background-color: #fff;
+            margin-bottom: 10px;
+            padding: 10px;
+            border-radius: 5px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        p {
+            color: #555;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- 추천 친구 목록 표시 -->
+    <h3>추천 친구</h3>
+    <% if (recommendedFriends && recommendedFriends.length > 0) { %>
+        <ul>
+            <% for (let i = 0; i < recommendedFriends.length; i++) { %>
+                <li><%= recommendedFriends[i] %></li>
+            <% } %>
+        </ul>
+    <% } else { %>   <!-- 추천 친구가 없을 경우-->
+        <p>No recommended friends available.</p>
+    <% } %>
+
+</body>
+</html>

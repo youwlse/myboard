@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Home</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
+
+    <!-- Your custom styles go here -->
+    <style>
+      *{
+        padding: 0;
+        margin: 0 auto;
+    }
+    ul{
+        list-style:none;
+    }
+    a{
+        text-decoration: none;
+        color: inherit;
+    }
+    img{
+        vertical-align: top;
+        border: 0;
+    }
+    body{
+        color: #222328;
+    }
+    .wrap1{
+        width: 1200px;
+        margin: 0 auto; /*가운데 정렬*/
+    }
+    .clearfix::after{content: ""; display: table; clear: both;}
+    
+    /*-------------------------reset=---------------------------*/
+    header{
+        width: 1200px;
+        height: 100px;
+        background: #f2f2f2;
+        position: relative; /*기준점 생성*/
+        z-index: 10; /*header에는 메뉴 속성이 있기에 z-index값 무조건 줘야함*/
+    }
+    header h1{
+        width: 250px;
+        height: 100px;
+        margin-left: 10px;
+        float: left; /*왼쪽으로 float 속성준다. html에는 clearfix줘야함*/
+    }
+    header img{
+        width: 300px;
+        height: 100px;
+        margin-bottom: 20px;
+        float: left; /*왼쪽으로 float 속성준다. html에는 clearfix줘야함*/
+        
+    }
+    nav{
+        width: 700px;
+        float: right; /*header h1 제목로고를 왼쪽으로 속성했으니 메뉴는 오른쪽으로 정렬한다.*/
+    }
+    
+    nav ul.gnb{
+        width: 100%;
+        height: 100%;
+        text-align: center;
+        margin-top: 40px;
+        
+    }
+    nav ul.gnb>li{
+        float: left;
+        width: 130px;
+        line-height: 3;
+        border: 1px solid #aaa; /*박스의 선을 1px 얇게 #aaa색상으로 준다.*/
+        box-sizing: border-box; /*박스 사이즈를 주어진 사이즈 안에서 해결한다.*/
+        position: relative;
+    }
+    nav ul.gnb>li>a{
+        display: block; /* a속성은 inline속성이기에 크기나 여백 값을 주고 세로로 정렬하려면 block속성을 줘야한다.*/
+        font-size: 20px;
+        font-weight: bold;
+        font-style: normal;
+    }
+    
+    
+    nav ul.gnb>li:hover>a{ /*gnb li를 마우스로 호버했을때 a의 상태*/
+        background: skyblue;
+        color: #fff;
+    }
+    
+    
+        #su-btn {
+          background-color: blue;
+          color: #fff;
+          border: none;
+          padding: 5px 10px;
+          border-radius: 5px;
+          cursor: pointer;
+      }
+   footer{
+    width: 100%;
+    height: 70px;
+    background-color: rgb(255, 204, 233);
+    padding: 10px;
+    clear: both; /*요소 양쪽 float해제*/
+    text-align: center;
+    margin-top: 50px;
+   }
+  </style>
+
+</head>
+<body>
+  <header><!--header 구성-->
+    <h1><img src="/images/blog.png" alt="blog" ></h1>
+    <nav class="clearfix"> <!--css에서 float 속성을 주었으면 html에서 clear 속성해제 해주어야한다.-->
+        <ul class="gnb"> <!--메뉴 구성-->
+            <li><a href="/home">내블로그</a>
+            </li>
+            <li><a href="/listmongo">전체</a>
+            </li>
+
+            <li><a href="/signup">회원가입</a>
+            </li>
+            <li><a href="/addfriend">친구 추가</a></li>
+            <li><a href="/friendlist">친구 목록</a></li>
+        </ul>
+    </nav>
+</header>
+
+    <!-- 수정 페이지 컨테이너 시작 -->
+    <div class="container mt-4">
+        <!-- 페이지 제목 시작 -->
+        <h2 style="margin-bottom: 40px;">수정 페이지</h2>
+
+        <!-- 수정 폼 시작 -->
+        <form action="/edit" method="post" enctype="multipart/form-data">
+            <!-- 제목 입력 폼 시작 -->
+            <div class="form-group">
+                <label for="title">제목</label>
+                <!-- 수정할 데이터의 ID 전달 -->
+                <input type="text" value="<%= data._id %>" name="id" style="display:none;">
+                <!-- 기존 제목 표시 및 수정 가능한 입력 폼 -->
+                <input type="text" value="<%= data.title %>" name="title" class="form-control">
+            </div>
+            <!-- 제목 입력 폼 끝 -->
+
+            <p></p>
+
+            <!-- 내용 입력 폼 시작 -->
+            <div class="form-group">
+                <label for="content">내용</label>
+                <!-- 기존 내용 표시 및 수정 가능한 입력 폼 -->
+                <textarea name="content" rows='10' class="form-control"><%= data.content %></textarea>
+            </div>
+            <!-- 내용 입력 폼 끝 -->
+
+            <p></p>
+
+            <!-- 이미지 업로드 폼 시작 -->
+            <div class="form-group">
+                <label for="image">이미지</label>
+                <!-- 이미지 업로드를 위한 입력 폼 -->
+                <input type="file" name="image" class="form-control-file">
+                <!-- 기존 이미지 표시 및 삭제 버튼 -->
+                <% if (data.image) { %>
+                    <!-- 이미지 표시 -->
+                    <div class="existing-image-container">
+                        <img src="data:image/jpeg;base64,<%= data.image.toString('base64') %>" class="img-fluid" alt="이미지">
+                        <!-- 이미지 삭제를 위한 버튼 -->
+                        <button class="close-button" onclick="removeImage()">X</button>
+                    </div>
+                <% } %>
+            </div>
+            <!-- 이미지 업로드 폼 끝 -->
+
+            <p></p>
+
+            <!-- 문서 업로드 폼 시작 -->
+            <div class="form-group">
+                <label for="document">문서</label>
+                <!-- 문서 업로드를 위한 입력 폼 -->
+                <input type="file" name="document" class="form-control-file">
+                <!-- 기존 문서 다운로드 링크 -->
+                <% if (data.document && data.document instanceof Buffer) { %>
+                    <a href="#" download="document.txt">기존 문서 다운로드</a>
+                <% } %>
+            </div>
+            <!-- 문서 업로드 폼 끝 -->
+
+            <p></p>
+
+            <!-- 작성일 입력 폼 시작 -->
+            <div class="form-group">
+                <label for="someDate">작성일</label>
+                <!-- 기존 작성일 표시 및 수정 가능한 입력 폼 -->
+                <input type="date" value="<%= data.date %>" class="form-control" name="someDate">
+            </div>
+            <!-- 작성일 입력 폼 끝 -->
+
+            <p></p>
+
+            <!-- 수정 버튼 -->
+            <button type="submit" class="btn btn-warning" style="float:right; margin-bottom:40px">수정</button>
+        </form>
+        <!-- 수정 폼 끝 -->
+    </div>
+    <!-- 수정 페이지 컨테이너 끝 -->
+
+    <!-- 페이지 푸터 시작 -->
+    <footer class="clearfix" style="padding: 20px;">Copyright (c) 2323406 blog content</footer>
+
+    <!-- 부트스트랩 스크립트 추가 -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" crossorigin="anonymous"></script>
+
+    <!-- 이미지 삭제 함수 정의 스크립트 추가 -->
+    <script>
+        function removeImage() {
+            // 이미지 컨테이너 선택
+            var container = document.querySelector('.existing-image-container');
+            // 이미지 컨테이너 비우기
+            container.innerHTML = '';
+        }
+    </script>
+    <!-- 페이지 스크립트 끝 -->
+
+</body>
+</html>

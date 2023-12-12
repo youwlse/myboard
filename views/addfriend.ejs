@@ -1,0 +1,113 @@
+<!-- addfriend.ejs -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Friend</title>
+
+   
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    
+
+    <style>
+   
+        body {
+            text-align: center;
+            
+            background-color: #f8f9fa; 
+        }
+
+        h2 {
+            margin: 10px;
+            color: #007bff; 
+        }
+        .container {
+            margin-top:  20px;
+            background-color: #ffffff; 
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); 
+        }
+
+        button{
+            margin-top: 17px; 
+        }
+        .btn-secondary {
+            margin-top: 20px; 
+        }
+        .recom{
+            margin-top: 40px;
+            width: 100%; /* 원하는 가로 크기 */
+            height: inherit; /* 원하는 세로 크기 */
+        }
+        .iframe-container iframe {
+            pointer-events: none; /* iframe 내의 모든 이벤트 비활성화 */
+           width: 100%;
+           height: 100%;
+           border: none;
+           overflow-y: auto; /* 세로 스크롤 유지 */
+         }
+    </style>
+</head>
+<body>
+
+    <!-- 메뉴를 포함한 페이지 내용 시작 -->
+    <%- include('menu.html') %>
+
+    <!-- 컨테이너 시작 -->
+    <div class="container">
+        <!-- 로우 시작 -->
+        <div class="row">
+            <!-- 8개의 열 중앙 정렬 시작 -->
+            <div class="col-md-8 offset-md-2">
+                <!-- 페이지 제목 시작 -->
+                <h2 class="mt-4 mb-4">친구 추가</h2>
+
+                <!-- 에러 메시지가 있을 경우 경고창 표시 시작 -->
+                <% if (errorMessage) { %>
+                    <div class="alert alert-danger">
+                        <%= errorMessage %>
+                    </div>
+                <% } %>
+                <!-- 에러 메시지 표시 끝 -->
+
+                <!-- 친구 추가 폼 시작 -->
+                <form action="/addfriend" method="post" class="form-container">
+                    <div class="form-group">
+                        <label for="friendid">친구의 아이디를 입력하세요.</label>
+                        <input type="text" class="form-control" id="friendid" name="friendid" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary">친구 추가</button>
+                    <a href="/friendlist" class="btn btn-secondary mt-3">친구 목록</a>
+                </form>
+                <!-- 친구 추가 폼 끝 -->
+
+            </div>
+            <!-- 8개의 열 중앙 정렬 끝 -->
+        </div>
+        <!-- 로우 끝 -->
+
+        <!-- 추천 친구 섹션 시작 -->
+        <div class="recom">
+            <div class="col-md-8 offset-md-2">
+                <div class="iframe-container">
+                    <!-- 추천 친구를 표시할 iframe 시작 -->
+                    <a target="iframe2" href="/recomfriend"></a>
+                    <iframe name="iframe2" src="/recomfriend"></iframe>
+                    <!-- 추천 친구를 표시할 iframe 끝 -->
+                </div>
+            </div>
+        </div>
+        <!-- 추천 친구 섹션 끝 -->
+    </div>
+    <!-- 컨테이너 끝 -->
+
+    <!-- 필요한 자바스크립트 라이브러리 추가 시작 -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+    <!-- 필요한 자바스크립트 라이브러리 추가 끝 -->
+
+</body>
+</html>
